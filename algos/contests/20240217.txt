@@ -53,7 +53,7 @@ class Solution:
                 prefixesArr2.add(w)    
         
         mutuals = sorted([x for x in prefixesArr1 if x in prefixesArr2], key=lambda x : -1*len(str(x)))
-        return 0 if if len(mutuals) == 0 else len(str(mutuals[0]))
+        return 0 if len(mutuals) == 0 else len(str(mutuals[0]))
         
         
 class Solution:
