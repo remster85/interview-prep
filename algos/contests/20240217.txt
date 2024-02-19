@@ -1,0 +1,258 @@
+10078 / 23172  Score 3 - 	0:18:14
+
+#1 Solved (wow at least I did not get an all fail today :p)
+#2 Time Limit Exceeded 693 / 717 testcases passed
+#3 Being implemented
+#4 Time Limit Exceeded 591 / 596 testcases passed
+
+
+#1
+https://leetcode.com/problems/count-prefix-and-suffix-pairs-i/
+class Solution(object):
+    def countPrefixSuffixPairs(self, words):
+        """
+        :type words: List[str]
+        :rtype: int
+        """
+        numberOfPrefixSuffixPairs = 0
+        for i in range(0, len(words)-1):
+            prefix = words[i]
+            #print(f"prefix={prefix}")
+            for j in range(i+1, len(words)):
+                word = words[j]
+                #print(f"word2={word}")
+                #print(f"prefix={word[0:len(prefix)]} suffix={word[max(len(word)-len(prefix),0):]}")
+                if prefix == word[0:len(prefix)] and prefix == word[max(len(word)-len(prefix),0):]:
+                    numberOfPrefixSuffixPairs +=1
+    
+        countPrefixSuffixPairs=numberOfPrefixSuffixPairs
+        return countPrefixSuffixPairs
+        
+        
+
+#2 https://leetcode.com/problems/find-the-length-of-the-longest-common-prefix/description/
+
+
+
+
+class Solution:
+    def longestCommonPrefix(self, arr1: List[int], arr2: List[int]) -> int:
+        set1 = set(arr1)
+        set2 = set(arr2)
+        prefixesArr1 = set()
+        prefixesArr2 = set()
+        for element in set1:
+            w = ""
+            for c in str(element):
+                w += str(c) 
+                prefixesArr1.add(w)
+        for element in set2:
+            w = ""
+            for c in str(element):
+                w += str(c) 
+                prefixesArr2.add(w)    
+        
+        mutuals = sorted([x for x in prefixesArr1 if x in prefixesArr2], key=lambda x : -1*len(str(x)))
+        return 0 if if len(mutuals) == 0 else len(str(mutuals[0]))
+        
+        
+class Solution:
+    def longestCommonPrefix(self, arr1: List[int], arr2: List[int]) -> int:
+        
+
+        maxOutput = 0
+        
+        for i in range(0, len(arr1)):
+            output = 0
+            word = ""
+            for c in str(arr1[i]):
+                word += c
+                #print(f"word in progress = {word} - maxOutput={maxOutput}")
+                
+                for j in range(0, len(arr2)):
+                    word2 = str(arr2[j])[0:len(word)]
+                    #print(f"j={j} we compare {word} and {word2}")
+                    if word2 == word:
+                        #print("MATCH")
+                        output = len(word2)
+                        break;
+                    
+                if output > maxOutput:
+                    maxOutput = output
+                    #print(f"maxOutput={maxOutput} ")
+                    output = 0
+    
+        longestCommonPrefix = maxOutput
+        return longestCommonPrefix
+        
+
+#3 https://leetcode.com/problems/most-frequent-prime/
+from math import sqrt
+import heapq
+
+class Solution:
+    
+    def isPrime(self, n: int):
+        # this flag maintains status whether the n is prime or not
+        prime_flag = 0
+
+        if(n > 1):
+            for i in range(2, int(sqrt(n)) + 1):
+                if (n % i == 0):
+                    prime_flag = 1
+                    break
+            if (prime_flag == 0):
+                return True
+            else:
+                return False
+        else:
+            return False
+
+
+    def mostFrequentPrime(self, mat: List[List[int]]) -> int:
+        generations = {}
+        notPrimes = {}
+        h = []
+    
+    
+        for l in range(0, len(mat)):
+            
+            #east
+            total = []
+
+            for i in range(0, len(mat[l])):
+                total.append(mat[l][i])
+                print(total)
+                number = int(''.join(map(str, total)))
+                print(number)
+                if number > 10:
+                    if number not in notPrimes and self.isPrime(number):
+                        if number not in generations:
+                            generations[number] = 0
+                        generations[number] += 1
+                        heapq.heappush(h, (number, generations[number]))
+                    else:
+                        notPrimes.get(number, 0)
+            
+            #west
+            total = []
+
+            for i in range(len(mat[l])-1,-1, -1):
+                total.append(mat[l][i])
+                print(total)
+                number = int(''.join(map(str, total)))
+                print(number)
+                if number > 10:
+                    if number not in notPrimes and self.isPrime(number):
+                        if number not in generations:
+                            generations[number] = 0
+                        generations[number] += 1
+                        heapq.heappush(h, (number, generations[number]))
+                    else:
+                        notPrimes.get(number, 0)
+                                        
+
+                    
+        print(generations)     
+        return heapq._heappop_max(h)[0]   
+
+
+#Implem2
+
+from math import sqrt
+import heapq
+
+class Solution:
+    
+    def isPrime(self, n: int):
+        # this flag maintains status whether the n is prime or not
+        prime_flag = 0
+
+        if(n > 1):
+            for i in range(2, int(sqrt(n)) + 1):
+                if (n % i == 0):
+                    prime_flag = 1
+                    break
+            if (prime_flag == 0):
+                return True
+            else:
+                return False
+        else:
+            return False
+
+
+    def mostFrequentPrime(self, mat: List[List[int]]) -> int:
+        generations = {}
+        notPrimes = {}
+        h = []
+        
+        dx = [1, 1, 0, -1, -1, -1, 0, 1]
+        dy = [0, 1, 1, 1, 0, -1, -1, -1]
+    
+        n = len(mat) 
+        m = len(mat[0]) 
+        
+        for o in range(0, m):
+            for p in range(0,n):
+
+                #print(f"start o={o} p={p}")
+                
+                        
+                for s in range(0,8):
+                    i = 1
+                    value = mat[p][o]
+                                                         
+                    #print(f"{o}{p} - {value}")
+                    deltax = dx[s] #1 
+                    deltay = dy[s] #0 
+
+                    #print(f"direction {str(s)} using dx={deltax} and dy={deltay} and i={i} -  {o+deltay*i} {p+deltax*i}")
+
+                    while o+deltay*i>= 0 and o+deltay*i<=m-1 and p+deltax*i >= 0 and p+deltax*i<=n-1:         
+                        value = str(value) +  str(mat[p+deltax*i][o+deltay*i])
+                        print(value)
+                        if int(value) > 10 and self.isPrime(int(value)):
+                            if value not in generations:
+                                generations[value] = 0
+                            generations[value] = generations[value] + 1
+                        i+=1
+        
+        generationValues = {}
+        
+        for value, count in generations.items():
+            
+            if count not in generationValues:
+                generationValues[count] = value
+
+            if int(value) > int(generationValues[count]):        
+                generationValues[count] = value  
+                
+        for count, value in generationValues.items():
+            heapq.heappush(h, (-1 * count, value))
+        return -1 if len(h) == 0 else int(heapq.heappop(h)[1])
+        
+        
+
+#4
+https://leetcode.com/problems/count-prefix-and-suffix-pairs-ii/
+class Solution(object):
+    def countPrefixSuffixPairs(self, words):
+        """
+        :type words: List[str]
+        :rtype: int
+        """
+        numberOfPrefixSuffixPairs = 0
+        for i in range(0, len(words)-1):
+            prefix = words[i]
+            #print(f"prefix={prefix}")
+            for j in range(i+1, len(words)):
+                word = words[j]
+                #print(f"word2={word}")
+                #print(f"prefix={word[0:len(prefix)]} suffix={word[max(len(word)-len(prefix),0):]}")
+                if prefix == word[0:len(prefix)] and prefix == word[max(len(word)-len(prefix),0):]:
+                    numberOfPrefixSuffixPairs +=1
+    
+        countPrefixSuffixPairs=numberOfPrefixSuffixPairs
+        return countPrefixSuffixPairs
+        
+        
