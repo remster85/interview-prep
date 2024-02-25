@@ -1,0 +1,80 @@
+#https://leetcode.com/discuss/general-discussion/4778525/weekly-contest-386
+
+#1 https://leetcode.com/problems/split-the-array/
+#20 min
+class Solution:
+    def isPossibleToSplit(self, nums: List[int]) -> bool:
+        nums1 = {}
+        nums2 = {}
+        if not len(nums2) % 2 == 0:
+            return False
+        nums.sort()
+        for element in nums:
+            print(f"nums1={nums1.keys()} and nums2={nums2.keys()}")    
+            if len(nums1) <= len(nums2):
+                if element not in nums1:
+                    nums1[element] = 'X'
+                elif element not in nums2:
+                    nums2[element] = 'X'
+                else:
+                    return False
+            else:
+                if element not in nums2:
+                    nums2[element] = 'X'
+                elif element not in nums2:
+                    nums1[element] = 'X'
+                else:   
+                    return False
+
+        return len(nums1) == len(nums2)
+
+#2 https://leetcode.com/problems/find-the-largest-area-of-square-inside-two-rectangles/
+
+import heapq
+
+class Solution:
+    def largestSquareArea(self, bottomLeft: List[List[int]], topRight: List[List[int]]) -> int:
+        maxSquareArea = 0
+        
+        h = []
+        #sorting by x asc
+        for i, element in enumerate(bottomLeft):
+            heapq.heappush(h, (element, topRight[i]))
+    
+        bottomLeftSorted = []
+        topRightSorted = []
+        
+        while len(h) > 0:
+            item = heapq.heappop(h)
+            bottomLeftSorted.append(item[0])
+            topRightSorted.append(item[1])
+
+        print(bottomLeftSorted)
+        print(topRightSorted)
+
+        for i, element in enumerate(bottomLeftSorted):
+            for j in range(i+1, len(bottomLeftSorted)):
+                if j <= len(bottomLeftSorted)-1:           
+                    if  topRightSorted[i][1] > bottomLeftSorted[j][1] and bottomLeftSorted[j][0] < topRightSorted[i][0] and not topRightSorted[j][1] <= bottomLeftSorted[i][1]:     
+                        if topRightSorted[j][0] >= topRightSorted[i][0]:
+                            if topRightSorted[i][1] >=  topRightSorted[j][1]:
+                                deltax = topRightSorted[i][0] - max(bottomLeftSorted[i][0], bottomLeftSorted[j][0])
+                                deltay = topRightSorted[j][1] - max(bottomLeftSorted[i][1], bottomLeftSorted[j][1])
+                            else:
+                                deltax = topRightSorted[i][0] - bottomLeftSorted[j][0]
+                                deltay = topRightSorted[i][1] - max(bottomLeftSorted[j][1],bottomLeftSorted[i][1])
+                        else:
+                            deltax = topRightSorted[j][0] - bottomLeftSorted[j][0]
+                            deltay = min(topRightSorted[i][1],topRightSorted[j][1]) - max(bottomLeftSorted[j][1],bottomLeftSorted[i][1])
+
+                        
+                        #print(f"deltax{deltax} deltay{deltay}")
+                        if deltax > 0 and deltay > 0:
+                            area = min(deltax,deltay)*min(deltax,deltay)
+                            if area > maxSquareArea:
+                                maxSquareArea = area
+
+        return maxSquareArea
+
+
+        
