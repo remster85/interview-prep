@@ -77,4 +77,49 @@ class Solution:
         return maxSquareArea
 
 
+## not optimized but much cleaner
         
+class Solution:
+    
+    def getRectanglePoints(self, bottomLeft: List[int], topRight: List[int]) -> Tuple[Any, Any, Any]:
+        numberList = []
+        for x in range(bottomLeft[0], topRight[0]+1):
+            for y in range(bottomLeft[1], topRight[1]+1):
+                numberList.append(str(x) + '|' + str(y))
+        return numberList
+
+    def maxArea(self, intersectSorted: List[int]):
+        if intersectSorted is None or len(intersectSorted) == 0:
+            return 0
+
+        root = intersectSorted[0]
+        rootX = int(root.split('|')[0])
+        rootY = int(root.split('|')[1])
+
+        xSet = set()
+        ySet = set()
+        for element in intersectSorted[1:]:
+            xx = xSet.add(element.split('|')[0])
+            yy = ySet.add(element.split('|')[1])
+        minLength = max(min(len(xSet), len(ySet)) - 1, 0)
+        return minLength * minLength
+        
+    def largestSquareArea(self, bottomLeft: List[List[int]], topRight: List[List[int]]) -> int:
+        maxArea = 0
+        globalNumbersList = []
+        xMapList = []
+        yMapList = []
+        
+        for i, element in enumerate(bottomLeft):
+            #define all squares
+            numberList = self.getRectanglePoints(element, topRight[i])       
+            globalNumbersList.append(numberList)
+ 
+        for i, rectangle in enumerate(globalNumbersList):
+            for j in range(i+1, len(globalNumbersList)):
+                intersect = list(set(globalNumbersList[i]) & set(globalNumbersList[j]))
+                area = self.maxArea(intersect)
+                if area > maxArea:
+                    maxArea = area
+
+        return maxArea
