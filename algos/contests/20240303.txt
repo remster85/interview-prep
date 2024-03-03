@@ -1,0 +1,176 @@
+#https://leetcode.com/contest/weekly-contest-387/
+#ex 1 https://leetcode.com/contest/weekly-contest-387/problems/distribute-elements-into-two-arrays-i/
+class Solution:
+    def resultArray(self, nums: List[int]) -> List[int]:
+        if len(nums) == 0:
+            return []
+        if len(nums) == 1:
+            return [nums[0]]
+    
+        nums1 = [nums[0]]
+        nums2 = [nums[1]]
+        
+        for num in nums[2:]:
+            if nums1[len(nums1)-1] >  nums2[len(nums2)-1]:
+                nums1.append(num)
+            else:
+                nums2.append(num)
+            print(f"nums1={nums1} - nums2={nums2}")
+        return nums1+nums2
+
+
+#ex 2 https://leetcode.com/problems/count-submatrices-with-top-left-element-and-sum-less-than-k/description/
+# 852 / 859 testcases passed time limit
+
+class Solution:
+    
+    def calculateSum(self, grid: List[List[int]], rowNumber: int, columnNumber: int, results)  -> int:
+        sum = 0
+        prevComputationKeys = [str(str(rowNumber-1) + str(columnNumber)), str(str(rowNumber) + str(columnNumber-1))]
+        for prevComputationKey in prevComputationKeys: 
+            if prevComputationKey in results:
+                kk = prevComputationKey.split('-')    
+                earlySum = grid[rowNumber][columnNumber] + results[prevComputationKey] 
+                #print(f"rowNumber={rowNumber} columnNumber={columnNumber} has earlySum of {earlySum}")
+                return earlySum
+
+        for i in range(0, rowNumber+1):
+            for j in range(0, columnNumber+1):    
+                sum += grid[i][j]
+        #print(f"rowNumber={rowNumber} columnNumber={columnNumber} has sum of {sum}")
+        return sum
+        
+        
+        
+    def countSubmatrices(self, grid: List[List[int]], k: int) -> int:
+        numberOfMatrices = 0
+        results = {}
+        isTooMuch = False
+
+        for rowNumber, row in enumerate(grid):
+            for columnNumber, element in enumerate(grid[0]):
+                print(f"try{rowNumber}{columnNumber}")
+                sum = self.calculateSum(grid, rowNumber, columnNumber, results) 
+                results[str(rowNumber)+"-"+str(columnNumber)] = sum
+                #print(results)
+                if  sum >= 0 and sum <= k:
+                    numberOfMatrices += 1
+                else:
+                    break
+                    isTooMuch = True
+            if isTooMuch:
+                break
+        return numberOfMatrices
+        
+        
+
+#ex 3 https://leetcode.com/problems/minimum-operations-to-write-the-letter-y-on-a-grid/
+
+class Solution:
+
+    def getYKeys(self, grid):
+        keys = set()
+        for i in range(0,int(len(grid)/2)+1):
+            key = f"{str(i)}-{str(i)}"
+            key2 = f"{str(i)}-{str(len(grid)-i-1)}"
+            keys.add(key)
+            keys.add(key2)        
+        for r in range((int(len(grid)/2)), len(grid)):
+            key = f"{str(r)}-{str(int(len(grid)/2))}"
+            keys.add(key)
+        return keys
+
+    def isY(self, grid: List[List[int]], yKeys):
+        keys = set()
+        for i in range(0,int(len(grid)/2)+1):
+            key = grid[i][i]
+            key2 = grid[i][len(grid)-i-1]
+            keys.add(key)
+            keys.add(key2)        
+        for r in range((int(len(grid)/2)), len(grid)):
+            key = grid[r][int(len(grid)/2)]
+            keys.add(key)
+        print(keys)
+        if len(set(keys)) != 1:
+            return False
+        
+        otherValue = grid[0][1]
+        if otherValue == grid[0][0]:
+
+            return False
+
+        for i in range(0, len(grid[0])):
+            for j in range(0, len(grid[0])):
+                key = f"{i}-{j}"
+                if key in yKeys:
+                    continue
+                if grid[i][j] == grid[0][0] or grid[i][j] != otherValue:
+                    return False
+        return True
+
+    def getOutsideValuesMap(self, grid: List[List[int]], yKeys):
+        yKeys
+        val = {0: 0, 1: 0,2: 0}
+        for i in range(0, len(grid[0])):
+            for j in range(0, len(grid[0])):
+                key = f"{i}-{j}"
+                if key not in yKeys: 
+                    val[grid[i][j]] +=1 
+            
+        maxValue = 0 if val[0] > val[1] else 1
+        maxValue = maxValue if val[maxValue] > val[2] else 2
+        return val
+
+    def getYValuesMap(self, grid: List[List[int]], yKeys):
+        val = {0: 0, 1: 0,2: 0}
+        for i in range(0, len(grid[0])):
+            for j in range(0, len(grid[0])):
+                key = f"{i}-{j}"
+                if key in yKeys: 
+                    val[grid[i][j]] +=1 
+            
+        maxValue = 0 if val[0] > val[1] else 1
+        maxValue = maxValue if val[maxValue] > val[2] else 2
+        return val
+
+    def minimumOperationsToWriteY(self, grid: List[List[int]]) -> int:
+        yKeys = self.getYKeys(grid)
+
+        if self.isY(grid, yKeys):
+            return 0
+
+        minNumOfOperations = math.inf
+
+        outsideValuesMap = self.getOutsideValuesMap(grid, yKeys)
+        yValuesMap = self.getYValuesMap(grid, yKeys)
+        outsideSize = (len(grid))*(len(grid))-len(yKeys)
+        
+        #0 inside
+            #1 outside
+        operations = len(yKeys)-yValuesMap[0] + outsideSize - outsideValuesMap[1]
+        minNumOfOperations = min(operations,  minNumOfOperations)
+            #2 outside
+        operations = len(yKeys)-yValuesMap[0] + outsideSize - outsideValuesMap[2]
+        minNumOfOperations = min(operations,  minNumOfOperations)
+
+        #1 inside
+            #0 outside
+        operations = len(yKeys)-yValuesMap[1] + outsideSize - outsideValuesMap[0]
+        minNumOfOperations = min(operations,  minNumOfOperations)
+            #2 outside
+        operations = len(yKeys)-yValuesMap[1] + outsideSize - outsideValuesMap[2]
+        minNumOfOperations = min(operations,  minNumOfOperations)
+
+
+        #2 inside
+            #0 outside
+        operations = len(yKeys)-yValuesMap[2] + outsideSize - outsideValuesMap[0]
+        minNumOfOperations = min(operations,  minNumOfOperations)
+            #1 outside
+        operations = len(yKeys)-yValuesMap[2] + outsideSize - outsideValuesMap[1]
+        minNumOfOperations = min(operations,  minNumOfOperations)
+        
+        return minNumOfOperations
+
+
+        
