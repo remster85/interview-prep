@@ -1,0 +1,41 @@
+
+#https://leetcode.com/problems/maximum-length-substring-with-two-occurrences/submissions/
+class Solution:
+    
+    def buildCharMap(self, s : str):
+        charMap = {}
+        for c in s:
+            if c not in charMap:
+                charMap[c] = 0
+            charMap[c] += 1
+        return charMap
+    
+    def maximumLengthSubstring(self, s: str) -> int:
+        maxString = ""
+        charMap = {}
+        onGoingString = ""
+        
+        for i, c in enumerate(s):
+            if c not in charMap:
+                charMap[c] = 0
+            if charMap[c] == 2:
+                if len(onGoingString) > len(maxString):
+                    maxString = onGoingString
+                j=1
+                numberofM = 0
+                while j <= len(onGoingString):
+                    if onGoingString[len(onGoingString)-j] == c:
+                        numberofM += 1
+                        if numberofM == 2:
+                            onGoingString = onGoingString[len(onGoingString)-j+1:]
+                            charMap = self.buildCharMap(onGoingString)
+                            break
+                    j+=1
+            charMap[c] += 1
+            onGoingString += c
+            
+        return max(len(onGoingString), len(maxString))
+        
+            
+        
+        
