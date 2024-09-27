@@ -1,0 +1,3 @@
+```
+ng new --no-standalone
+```
