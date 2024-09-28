@@ -1,0 +1,18 @@
+<p>Search a Movie by Year</p>
+
+<div>
+    <input type="text"  (keydown)="onKeyDown($event)"  [(ngModel)]="movieSearchText" maxlength="4" size="4"  length="4">  &nbsp; 
+    <button class="button" (click)="search()">Search</button> 
+</div>
+
+<div>
+    <ul>
+        <li *ngFor="let movie of movieResponse">{{movie.title}}</li>
+    </ul>
+</div>
+
+<div class="bottom-div">
+    {{logs}}
+    <br/>
+    # of Researches : {{searchHistoryHits}} - # of API Hits : {{searchHistoryMap.size}}
+</div>
