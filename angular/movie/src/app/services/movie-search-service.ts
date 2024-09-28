@@ -10,7 +10,6 @@ export class MovieSearchService {
   private numberOfHitsSubject = new BehaviorSubject<number>(0);
   public numberOfHits$ = this.numberOfHitsSubject.asObservable(); // Observable variable
   
-
   private numberOfCacheHitsSubject = new BehaviorSubject<number>(0);
   public numberOfCacheHits$ = this.numberOfCacheHitsSubject.asObservable(); // Observable variable
 
@@ -26,6 +25,8 @@ export class MovieSearchService {
       {  title: 'The Great Gatsby', year: 2012 }
     ]
   
+
+      
   getMovies(searchText: string) : Observable<Movie[]>{
 
     if(this.searchHistoryMap.has(searchText)){
@@ -43,6 +44,11 @@ export class MovieSearchService {
     this.searchHistoryMap.set(searchText, response);
     this.numberOfHitsSubject.next(this.numberOfHitsSubject.value  + 1);
     return of(response); 
+  }
+  
+
+  getAllMovies() : Observable<Movie[]>{
+    return of(this.data); 
   }
   
     

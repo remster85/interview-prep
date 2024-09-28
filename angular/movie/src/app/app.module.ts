@@ -8,6 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieAdminComponent } from './components/movie-admin/movie-admin.component';
 import { LogsComponent } from './components/logs/logs.component';
 import { MovieServiceStatsComponent } from './components/movie-service-stats/movie-service-stats.component';
+import { MovieDisplayComponent } from './components/movie-display/movie-display.component';
+import { AgGridAngular } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
@@ -15,13 +17,15 @@ import { MovieServiceStatsComponent } from './components/movie-service-stats/mov
     MovieSearchComponent,
     MovieAdminComponent,
     LogsComponent,
-    MovieServiceStatsComponent
+    MovieServiceStatsComponent,
+    MovieDisplayComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AgGridAngular
   ],
   providers: [],
   bootstrap: [AppComponent]

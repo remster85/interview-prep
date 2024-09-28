@@ -9,6 +9,21 @@ import { Movie } from './models/movie';
 export class AppComponent {
   title = 'AMC';
   currentLog = 'ahah';
+  displayAddMovie : boolean = false;
+  displayMovies : boolean = false;
+  displaySearchMovie: boolean = false;
+
+  addMovieView(){
+    this.displayAddMovie = !this.displayAddMovie;
+  }
+
+  addMovieSearch(){
+    this.displaySearchMovie = !this.displaySearchMovie;
+  }
+
+  seeMovieView(){
+    this.displayMovies = !this.displayMovies;
+  }
 
   newMovie(event : Movie){
       this.currentLog = `A new movie was added ! ${event.title}`;

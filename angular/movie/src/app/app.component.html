@@ -1,9 +1,29 @@
 <h1>Hello Remi</h1>
 
-<app-movie-search></app-movie-search>
-<app-movie-admin (newMovieEvent)="newMovie($event)"></app-movie-admin>
-<app-movie-service-stats [log]="currentLog"></app-movie-service-stats>
 
+<div>
+
+    <a class="link-spacing" (click)="addMovieView()">Add Movie</a>
+    <a class="link-spacing" (click)="addMovieSearch()">Search Movie</a>
+    <a class="link-spacing" (click)="seeMovieView()">See Movies</a>
+    
+</div>
+
+
+
+<div *ngIf=displaySearchMovie>
+    <app-movie-search></app-movie-search>
+</div>
+
+<div *ngIf=displayAddMovie>
+    <app-movie-admin (newMovieEvent)="newMovie($event)"></app-movie-admin>
+</div>
+
+<div *ngIf=displayMovies>
+   <app-movie-display></app-movie-display>
+</div>
+
+<app-movie-service-stats [log]="currentLog"></app-movie-service-stats>
 <app-logs></app-logs>
 
 <router-outlet />
