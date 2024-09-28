@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MovieSearchService } from '../movie-search-service';
-import { Movie } from '../movie';
+import { MovieSearchService } from '../../services/movie-search-service';
+import { Movie } from '../../models/movie';
 @Component({
   selector: 'app-movie-search',
   templateUrl: './movie-search.component.html',
@@ -13,19 +13,21 @@ export class MovieSearchComponent {
   movieSearchText : string = "2024";
   movieResponse : Movie[]= []; 
   logs: string = "";
-  searchHistoryHits: number = 0;
-  searchHistoryMap : Map<string,Movie[]>  = new Map();
+  numberOfHits: number = 0;
+  numberOfCacheHits: number = 0;
 
   ngOnInit(){
     this.manageSubscriptions();
   }
 
   manageSubscriptions(){
-    // this.movieSearchService.numberOfHits.subscribe( data => {
-    //   this.searchHistoryHits = data;
-    // });
+    this.movieSearchService.numberOfHits.subscribe( data => {
+      this.numberOfHits = data;
+    });
+    this.movieSearchService.numberOfCacheHits.subscribe( data => {
+      this.numberOfCacheHits = data;
+    });
   }
-
 
   onKeyDown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
@@ -35,24 +37,11 @@ export class MovieSearchComponent {
 
   search(){
     let text = `Searching Movie ${this.movieSearchText}`;
-    let searchedText = this.movieSearchText;
     this.logs = text;
-
-    if(this.searchHistoryMap.has(searchedText)){
-      this.searchHistoryHits++;
-      this.logs = `Cache was used to respond to your search ${searchedText}`;
-      this.movieResponse = this.searchHistoryMap.get(searchedText)!;
-      return;
-    }
 
     this.movieSearchService.getMovies(this.movieSearchText).subscribe(
       (data : Movie[]) => {
         this.movieResponse = data;
-        this.searchHistoryHits++;
-
-        if(!this.searchHistoryMap.has(searchedText))  this.searchHistoryMap.set(searchedText, []);
-        this.searchHistoryMap.set(searchedText, data);
-
         let lastSearch = this.movieSearchText;
         this.logs = `MovieSearchService has responded for your search ${lastSearch}`;
       }

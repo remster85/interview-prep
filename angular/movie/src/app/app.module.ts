@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MovieSearchComponent } from './movie-search/movie-search.component';
-import { FormsModule } from '@angular/forms';
-import { MovieAdminComponent } from './movie-admin/movie-admin.component';
+import { MovieSearchComponent } from './components/movie-search/movie-search.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MovieAdminComponent } from './components/movie-admin/movie-admin.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,8 @@ import { MovieAdminComponent } from './movie-admin/movie-admin.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,9 @@
+<p>Add a Movie</p>
+
+<form *ngIf="movieForm" [formGroup]="movieForm" (ngSubmit)="addMovie()">
+
+    <div><label>Title</label><input formControlName="title"></div>
+    <div><label>Year</label><input size="4" maxSize="4" formControlName="year"></div>
+    <button type="submit">Add Movie</button>
+
+</form>

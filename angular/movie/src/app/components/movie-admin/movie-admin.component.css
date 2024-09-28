@@ -1,0 +1,12 @@
+form {
+    display: flex;
+    flex-direction: column; /* Aligns children vertically */
+  }
+  
+  form > div {
+    margin-bottom: 1em; /* Space between fields */
+  }
+
+  button {
+    width: 150px; /* Adjust the width as needed */
+  }
