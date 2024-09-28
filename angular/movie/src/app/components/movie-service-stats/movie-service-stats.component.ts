@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { MovieSearchService } from '../../services/movie-search-service';
 
 @Component({
@@ -11,6 +11,8 @@ export class MovieServiceStatsComponent {
   numberOfHits : number = 0;
   numberOfCacheHits : number = 0;
 
+  @Input() log: string = '';
+  
   constructor(private movieSearchService : MovieSearchService){
 
   }
@@ -19,9 +21,13 @@ export class MovieServiceStatsComponent {
     this.manageSubscriptions();
   }
 
+  ngOnChanges(changes: SimpleChanges){
+    console.log(changes);
+  }
+
   manageSubscriptions(){
-    this.movieSearchService.numberOfCacheHits.subscribe(data => this.numberOfCacheHits = data );
-    this.movieSearchService.numberOfHits.subscribe(data => this.numberOfHits = data );
+    this.movieSearchService.numberOfCacheHits$.subscribe(data => this.numberOfCacheHits = data );
+    this.movieSearchService.numberOfHits$.subscribe(data => this.numberOfHits = data );
 
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Movie } from './models/movie';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'tourofheroes';
+  title = 'AMC';
+  currentLog = 'ahah';
+
+  newMovie(event : Movie){
+      this.currentLog = `A new movie was added ! ${event.title}`;
+  }
 }

@@ -21,10 +21,10 @@ export class MovieSearchComponent {
   }
 
   manageSubscriptions(){
-    this.movieSearchService.numberOfHits.subscribe( data => {
+    this.movieSearchService.numberOfHits$.subscribe( data => {
       this.numberOfHits = data;
     });
-    this.movieSearchService.numberOfCacheHits.subscribe( data => {
+    this.movieSearchService.numberOfCacheHits$.subscribe( data => {
       this.numberOfCacheHits = data;
     });
   }

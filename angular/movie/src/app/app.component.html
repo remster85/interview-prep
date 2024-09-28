@@ -1,8 +1,9 @@
 <h1>Hello Remi</h1>
 
 <app-movie-search></app-movie-search>
-<app-movie-admin></app-movie-admin>
+<app-movie-admin (newMovieEvent)="newMovie($event)"></app-movie-admin>
+<app-movie-service-stats [log]="currentLog"></app-movie-service-stats>
 
-<app-movie-service-stats></app-movie-service-stats>
 <app-logs></app-logs>
+
 <router-outlet />

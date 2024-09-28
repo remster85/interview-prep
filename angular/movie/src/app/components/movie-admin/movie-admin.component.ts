@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MovieSearchService } from '../../services/movie-search-service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Movie } from '../../models/movie';
@@ -10,6 +10,9 @@ import { Movie } from '../../models/movie';
 })
 export class MovieAdminComponent {
 
+
+  @Output() newMovieEvent: EventEmitter<Movie> = new EventEmitter();
+  
   constructor(private movieSearchService : MovieSearchService){
     this.initForm();
   }
@@ -31,7 +34,10 @@ export class MovieAdminComponent {
 
   addMovie(){
     console.log("form submitted");
-    this.movieSearchService.addMovie(this.formToMovie());
+    let movie = this.formToMovie();
+    this.movieSearchService.addMovie(movie);
+    this.newMovieEvent.emit(movie);
+
   }
 
   formToMovie() : Movie{
