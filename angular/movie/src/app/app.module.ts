@@ -6,12 +6,16 @@ import { AppComponent } from './app.component';
 import { MovieSearchComponent } from './components/movie-search/movie-search.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieAdminComponent } from './components/movie-admin/movie-admin.component';
+import { LogsComponent } from './components/logs/logs.component';
+import { MovieServiceStatsComponent } from './components/movie-service-stats/movie-service-stats.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MovieSearchComponent,
-    MovieAdminComponent
+    MovieAdminComponent,
+    LogsComponent,
+    MovieServiceStatsComponent
   ],
   imports: [
     BrowserModule,

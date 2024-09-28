@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MovieSearchService } from '../../services/movie-search-service';
 import { Movie } from '../../models/movie';
+import { LogService } from '../../services/log.service';
 @Component({
   selector: 'app-movie-search',
   templateUrl: './movie-search.component.html',
@@ -8,11 +9,10 @@ import { Movie } from '../../models/movie';
 })
 export class MovieSearchComponent {
 
-  constructor(private movieSearchService: MovieSearchService){}
+  constructor(private movieSearchService: MovieSearchService, private logService : LogService){}
 
   movieSearchText : string = "2024";
   movieResponse : Movie[]= []; 
-  logs: string = "";
   numberOfHits: number = 0;
   numberOfCacheHits: number = 0;
 
@@ -37,13 +37,13 @@ export class MovieSearchComponent {
 
   search(){
     let text = `Searching Movie ${this.movieSearchText}`;
-    this.logs = text;
+    this.logService.log.next(text);
 
     this.movieSearchService.getMovies(this.movieSearchText).subscribe(
       (data : Movie[]) => {
         this.movieResponse = data;
         let lastSearch = this.movieSearchText;
-        this.logs = `MovieSearchService has responded for your search ${lastSearch}`;
+        this.logService.log.next(`MovieSearchService has responded for your search ${lastSearch}`);
       }
     )
   }

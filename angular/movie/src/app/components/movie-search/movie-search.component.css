@@ -1,13 +1,3 @@
-.bottom-div {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%; /* Makes the div stretch across the page */
-    background-color: lightgray; /* Optional: Set background color */
-    text-align: center; /* Optional: Center the text */
-    padding: 2px; /* Optional: Add padding */
-  }
-
 .button {
     background-color: #f5ecec;
     color: #000000;
