@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<testsuite name="HeadlessChrome 78.0.3904 (Linux 0.0.0)" package="unit" timestamp="2024-09-29T13:47:58" id="0" hostname="a61b56c5f451" tests="4" errors="0" failures="1" time="0.289">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/78.0.3904.108 Safari/537.36"/>
+  </properties>
+  <testcase name="WeatherDetails Perform series of actions" time="0.227" classname=".WeatherDetails">
+    <failure type="">Error: Expected &lt;div _ngcontent-a-c45 data-test-id="no-results" class="card-text"&gt;...&lt;/div&gt; to be falsy.
+    at &lt;Jasmine&gt;
+    at http://localhost:9876/_karma_webpack_/src/app/weatherDetails/weatherDetails.component.spec.ts:171:49
+    at &lt;Jasmine&gt;
+    at fulfilled (http://localhost:9876/_karma_webpack_/node_modules/tslib/tslib.es6.js:71:42)
+    at ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-evergreen.js:364:1)
+    at ProxyZoneSpec.push../node_modules/zone.js/dist/zone-testing.js.ProxyZoneSpec.onInvoke (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-testing.js:292:1)
+    at ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-evergreen.js:363:1)
+    at Zone.run (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-evergreen.js:123:1)
+    at http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-evergreen.js:857:1
+    at ZoneDelegate.invokeTask (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-evergreen.js:399:1)
+</failure>
+    <failure type="">Error: Expected &lt;div _ngcontent-a-c45 data-test-id="no-results" class="card-text"&gt;...&lt;/div&gt; to be falsy.
+    at &lt;Jasmine&gt;
+    at http://localhost:9876/_karma_webpack_/src/app/weatherDetails/weatherDetails.component.spec.ts:178:49
+    at &lt;Jasmine&gt;
+    at fulfilled (http://localhost:9876/_karma_webpack_/node_modules/tslib/tslib.es6.js:71:42)
+    at ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-evergreen.js:364:1)
+    at ProxyZoneSpec.push../node_modules/zone.js/dist/zone-testing.js.ProxyZoneSpec.onInvoke (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-testing.js:292:1)
+    at ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-evergreen.js:363:1)
+    at Zone.run (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-evergreen.js:123:1)
+    at http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-evergreen.js:857:1
+    at ZoneDelegate.invokeTask (http://localhost:9876/_karma_webpack_/node_modules/zone.js/dist/zone-evergreen.js:399:1)
+</failure>
+  </testcase>
+  <testcase name="WeatherDetails Test with existing cities in both upper and small case" time="0.03" classname=".WeatherDetails"/>
+  <testcase name="WeatherDetails Initial UI is rendered as expected" time="0.014" classname=".WeatherDetails"/>
+  <testcase name="WeatherDetails Test with non-existing cities" time="0.018" classname=".WeatherDetails"/>
+  <system-out>
+    <![CDATA[HeadlessChrome 78.0.3904 (Linux 0.0.0) LOG: 'on city change dallas'
+,HeadlessChrome 78.0.3904 (Linux 0.0.0) LOG: 'on city change seattle'
+,HeadlessChrome 78.0.3904 (Linux 0.0.0) LOG: 'on city change '
+,HeadlessChrome 78.0.3904 (Linux 0.0.0) LOG: 'on city change Boston'
+,HeadlessChrome 78.0.3904 (Linux 0.0.0) LOG: 'on city change Dallas'
+,HeadlessChrome 78.0.3904 (Linux 0.0.0) LOG: 'on city change Portland'
+,HeadlessChrome 78.0.3904 (Linux 0.0.0) LOG: 'on city change boston'
+,HeadlessChrome 78.0.3904 (Linux 0.0.0) LOG: 'on city change phoenix'
+,HeadlessChrome 78.0.3904 (Linux 0.0.0) LOG: 'on city change Seattle'
+,HeadlessChrome 78.0.3904 (Linux 0.0.0) LOG: 'on city change new york'
+,HeadlessChrome 78.0.3904 (Linux 0.0.0) LOG: 'on city change florida'
+
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
