@@ -1,9 +1,8 @@
 # https://leetcode.com/problems/valid-palindrome-ii/
 
-class Solution2:
+class Solution1:
 
     def isStrictPalindrome(self, s: str) -> bool:
-        print("checking isStrictPalindrome " + s)
         i = 0
         j = len(s) - 1
 
@@ -18,9 +17,8 @@ class Solution2:
     def validPalindrome(self, s: str) -> bool:
         i = 0
         j = len(s) - 1
-        deletions = 0
-    
-        while i < j  and deletions < 2:
+
+        while i < j:
             if s[i] != s[j]:
                 t1 = self.isStrictPalindrome(s[i:j])
                 t2 = self.isStrictPalindrome(s[i+1:j+1])
@@ -28,7 +26,6 @@ class Solution2:
             i+=1
             j-=1
         return True
-
 
 
 class Solution2:
