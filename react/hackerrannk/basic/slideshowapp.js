@@ -1,36 +1,65 @@
 import React, { useState } from 'react';
 
-function Slides({slides}) {
+function Slides({ slides }) {
+    const [slideNumber, setSlideNumber] = useState(0);
+    const [isPrevButtonDisabled, setIsPrevButtonDisabled] = useState(true);
+    const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(false);
+    const [isRestartButtonDisabled, setIsRestartButtonDisabled] = useState(true);
 
-    const[slideNumber, setSlideNumber] = useState(0);
-    const[isPrevButtonDisabled, setIsPrevButtonDisabled] = useState(true);
-    const[isNextButtonDisabled, setIsNextButtonDisabled] = useState(false);
-
-    function goPrev(){
-        setSlideNumber(slideNumber-1);
-        if(slideNumber == 1) setIsPrevButtonDisabled(true);
-        
+    function updateButtonStates(newSlideNumber) {
+        setIsPrevButtonDisabled(newSlideNumber === 0);
+        setIsNextButtonDisabled(newSlideNumber === slides.length - 1);
+        setIsRestartButtonDisabled(newSlideNumber === 0);
     }
 
-    function goNext(){
-        setSlideNumber(slideNumber+1);
-        if(slideNumber == slides.length-2) setIsNextButtonDisabled(true);   
-        setIsPrevButtonDisabled(false);   
+    function goPrev() {
+        if (slideNumber > 0) {
+            const newSlideNumber = slideNumber - 1;
+            setSlideNumber(newSlideNumber);
+            updateButtonStates(newSlideNumber);
+        }
     }
 
-    function restart(){
+    function goNext() {
+        if (slideNumber < slides.length - 1) {
+            const newSlideNumber = slideNumber + 1;
+            setSlideNumber(newSlideNumber);
+            updateButtonStates(newSlideNumber);
+        }
+    }
+
+    function restart() {
         setSlideNumber(0);
-        setIsPrevButtonDisabled(true);
-        setIsNextButtonDisabled(false);
+        updateButtonStates(0);
     }
-
 
     return (
         <div>
             <div id="navigation" className="text-center">
-                <button data-testid="button-restart" className="small outlined"  onClick={restart}>Restart</button>
-                <button data-testid="button-prev" className="small" onClick={goPrev} disabled={isPrevButtonDisabled}>Prev</button>
-                <button data-testid="button-next" className="small" onClick={goNext}disabled={isNextButtonDisabled}>Next</button>
+                <button
+                    data-testid="button-restart"
+                    className="small outlined"
+                    disabled={isRestartButtonDisabled}
+                    onClick={restart}
+                >
+                    Restart
+                </button>
+                <button
+                    data-testid="button-prev"
+                    className="small"
+                    onClick={goPrev}
+                    disabled={isPrevButtonDisabled}
+                >
+                    Prev
+                </button>
+                <button
+                    data-testid="button-next"
+                    className="small"
+                    onClick={goNext}
+                    disabled={isNextButtonDisabled}
+                >
+                    Next
+                </button>
             </div>
             <div id="slide" className="card text-center">
                 <h1 data-testid="title">{slides[slideNumber].title}</h1>
@@ -38,7 +67,6 @@ function Slides({slides}) {
             </div>
         </div>
     );
-
 }
 
 export default Slides;
