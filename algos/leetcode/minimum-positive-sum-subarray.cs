@@ -17,3 +17,25 @@ public class Solution {
         return (min == 1000000) ? -1 : min ;
     }
 }
+
+#optimize
+public class Solution {
+    public int MinimumSumSubarray(IList<int> nums, int l, int r) {
+        int n = nums.Count;
+        int min = int.MaxValue;
+
+        for (int start = 0; start < n; start++) {
+            int sum = 0;
+            for (int end = start; end < n && end - start + 1 <= r; end++) {
+                sum += nums[end];
+                if (end - start + 1 >= l && sum > 0) {
+                    min = Math.Min(min, sum);
+                }
+            }
+        }
+
+        return min == int.MaxValue ? -1 : min;
+    }
+
+
+}
