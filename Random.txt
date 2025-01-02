@@ -1,0 +1,9 @@
+SELECT 
+    CONCAT(
+        SUBSTRING(firm FROM GREATEST(LENGTH(firm), 1) - 1 FOR 1),
+        CASE
+            WHEN account LIKE ' %' THEN SUBSTRING('0000' || TRIM(account) FROM 1 FOR 2)
+            ELSE ''
+        END
+    ) AS recalculated_foa
+FROM your_table;
