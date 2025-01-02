@@ -1,9 +1,9 @@
 SELECT 
-    -- Extract last character of 'firm'
-    RIGHT(firm, 1) || 
-    -- Build the suffix based on the trimmed 'account'
+    firm,
+    account,
+    -- Build recalculated_foa based on account length
     CASE 
-        WHEN TRIM(account) LIKE ' %' THEN '0000' || TRIM(account)
-        ELSE SUBSTRING('0000' || TRIM(account) FROM 1 FOR 2)
+        WHEN LENGTH(TRIM(account)) < 7 THEN '1000' || TRIM(account)
+        ELSE RIGHT(firm, 1) || TRIM(account)
     END AS recalculated_foa
-FROM your_table;
+FROM t_taurus_consensys_active_schedule;
