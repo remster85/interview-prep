@@ -1,13 +1,9 @@
 SELECT 
-    -- Extract substring from 'firm' starting at firm length - 1 (or 0)
-    SUBSTRING(firm FROM GREATEST(LENGTH(firm) - 1, 0) + 1) ||
-    -- Build the suffix, conditionally extract characters
-    SUBSTRING(
-        '0000' || TRIM(account), 
-        1, 
-        CASE 
-            WHEN account LIKE ' %' THEN 2 
-            ELSE 0 
-        END
-    ) AS recalculated_foa
+    -- Extract last character of 'firm'
+    RIGHT(firm, 1) || 
+    -- Build the suffix based on the trimmed 'account'
+    CASE 
+        WHEN TRIM(account) LIKE ' %' THEN '0000' || TRIM(account)
+        ELSE SUBSTRING('0000' || TRIM(account) FROM 1 FOR 2)
+    END AS recalculated_foa
 FROM your_table;
