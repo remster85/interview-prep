@@ -1,9 +1,30 @@
-SELECT 
-    firm,
-    account,
-    -- Build recalculated_foa based on account length
-    CASE 
-        WHEN LENGTH(TRIM(account)) < 7 THEN '1000' || TRIM(account)
-        ELSE RIGHT(firm, 1) || TRIM(account)
-    END AS recalculated_foa
-FROM t_taurus_consensys_active_schedule;
+import pandas as pd
+import os
+
+# Input CSV file
+input_file = 'PBTactical-P&L.csv'
+
+# Create a directory to store the output files
+output_dir = 'output_files'
+os.makedirs(output_dir, exist_ok=True)
+
+# Read the CSV file
+df = pd.read_csv(input_file)
+
+# Check if the 'Effective Date' column exists
+if 'Effective Date' not in df.columns:
+    raise ValueError("The CSV file must contain an 'Effective Date' column.")
+
+# Group rows by 'Effective Date'
+for date, group in df.groupby('Effective Date'):
+    # Format the date as YYYYMMDD
+    formatted_date = pd.to_datetime(date).strftime('%Y%m%d')
+    
+    # Construct the output file name
+    output_file = f'PBTactical-P&L-{formatted_date}.csv'
+    output_path = os.path.join(output_dir, output_file)
+    
+    # Write the group to a new CSV file
+    group.to_csv(output_path, index=False)
+
+print(f"Files created in the '{output_dir}' directory.")
