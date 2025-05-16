@@ -1,0 +1,27 @@
+import pandas as pd
+import os
+
+# Input CSV file
+input_file = 'PBTactical-P&L.csv'
+
+# Create a directory to store the output files
+output_dir = 'output_files'
+os.makedirs(output_dir, exist_ok=True)
+
+# Read the CSV file without parsing dates to keep the original format
+df = pd.read_csv(input_file)
+
+# Check if the 'Effective Date' column exists
+if 'Effective Date' not in df.columns:
+    raise ValueError("The CSV file must contain an 'Effective Date' column.")
+
+# Group rows by 'Effective Date'
+for date, group in df.groupby('Effective Date'):
+    # Construct the output file name
+    output_file = f'PBTactical-P&L-{date}.csv'
+    output_path = os.path.join(output_dir, output_file)
+    
+    # Write the group to a new CSV file
+    group.to_csv(output_path, index=False)
+
+print(f"Files created in the '{output_dir}' directory.")
