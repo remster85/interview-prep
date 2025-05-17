@@ -1,0 +1,52 @@
+<div style="padding: 2rem; max-width: 400px; margin: auto; font-family: sans-serif">
+  <h2>EUR / USD Converter</h2>
+
+  <p>
+    <strong>Live FX Rate:</strong>
+    <span [style.color]="overrideFxRate ? 'orange' : 'black'">
+      {{ fxRate.toFixed(4) }} {{ overrideFxRate ? '(override)' : '' }}
+    </span>
+  </p>
+
+  <label>
+    Override FX Rate:
+    <input
+      #fxInput
+      type="number"
+      step="0.0001"
+      [value]="overrideFxRate !== null ? overrideFxRate : ''"
+      (input)="onOverrideRateChange(fxInput.valueAsNumber)"
+    />
+  </label>
+  
+  <div style="margin: 1rem 0">
+    <label>
+      <input type="radio" name="currency" value="EUR" [(ngModel)]="inputCurrency" (change)="onCurrencySwitch()" /> EUR
+    </label>
+    <label>
+      <input type="radio" name="currency" value="USD" [(ngModel)]="inputCurrency" (change)="onCurrencySwitch()" /> USD
+    </label>
+  </div>
+
+  <div style="margin: 1rem 0">
+    <label>
+      Enter amount ({{ inputCurrency }}):
+      <input
+        #amountInput
+        type="number"
+        [(ngModel)]="amount"
+        (input)="onAmountChange(amountInput.valueAsNumber)"
+      />
+    </label>
+  </div>
+
+  <div style="padding: 1rem; border: 1px solid black; border-radius: 8px; background: #f0f0f0">
+    <p>
+      Converted value:
+      <strong>
+        {{ converted.toFixed(2) }}
+        {{ inputCurrency === 'EUR' ? 'USD' : 'EUR' }}
+      </strong>
+    </p>
+  </div>
+</div>
