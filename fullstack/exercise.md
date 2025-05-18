@@ -1,6 +1,17 @@
-# ANGULAR
+# PREREQUISITIES
 
-npm install -g @angular/cli
+In order to perform the front-end assessment, you need the following:
+- github.com Account
+- Frontend development setup needed on a local machine (Visual Studio code is recommended)
+- Have ability to push code from local machine to github.com (Have your git environment setup and tested)
+
+
+# ANGULAR PATH
+
+## Pre-Requisites
+- node: 18.x or 20.x (there are LTS versions)  
+- npm: 9.x or 10.x
+- angular cli ```npm install -g @angular/cli```
 
 ## Part 1 - Initialize the project with a simple form
 Create a new app with following commands:
@@ -35,7 +46,11 @@ There should be an error.
 
 Amend the file app.component.ts to make the solution works and Commit your changes.
 
-## REACT
+## REACT PATH
+
+## Pre-Requisites
+- node: 16.x, 18.x, or 20.x (there are LTS versions) 
+- npm: 7.x or higher
 
 ## Part 1 - Initialize the project with a simple form
 Create a new app with following commands:
