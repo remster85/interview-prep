@@ -350,6 +350,23 @@ Add a button labeled **"Simulate FX Service Failure"**.
 
 **Commit your changes.**
 
+### Step 13: Use an Observable/Observer Pattern to Monitor FX Rate Updates
 
+Introduce a reactive pattern to listen and respond to FX rate updates using **Observable/Observer**.
 
+#### Goal:
+Refactor your FX rate update logic to use an observable pattern, so that any component or service can **subscribe** to FX rate changes.
+
+> 💡 This simulates a real-world pub/sub architecture used in financial apps to listen for market data.
+
+**Angular Implementation**:  
+- Create an `FxRateService` that exposes an `Observable<number>` for the FX rate.
+- Use a `BehaviorSubject<number>` internally to hold the FX rate.
+- Emit new values every 5 seconds using `setInterval` in the service.
+- The main component should **subscribe** to this observable to get the latest FX rate.
+
+**React**:  
+- Create a custom hook useFxRate() that uses RxJS or a simple EventEmitter-like pattern.
+- Use useEffect with setInterval to simulate FX updates.
+- Use useState to hold the latest FX rate in subscribing components.
    
