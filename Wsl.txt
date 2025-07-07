@@ -1,0 +1,59 @@
+ChatGP
+I would like to install wsl Ubuntu on my windows server 2019 . I have downloaded the .appx file, how to proceed 
+
+
+ChatGPT a dit :
+To install WSL Ubuntu on Windows Server 2019 using a downloaded .appx file, follow these steps:
+
+✅ Prerequisites
+Windows Server 2019 must be updated to at least build 16215 or later.
+
+WSL is only supported via WSL 1 on Windows Server 2019. WSL 2 is not available on this OS.
+
+You must have admin rights.
+
+🛠️ Step-by-Step Installation
+1. Enable WSL Feature
+Open PowerShell as Administrator and run:
+
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+Then restart your computer.
+
+2. Install the .appx (Ubuntu) File
+Let’s say your .appx file is called Ubuntu.appx and is in C:\Installers.
+
+Run this in PowerShell as Administrator:
+
+Add-AppxPackage -Path "C:\Installers\Ubuntu.appx"
+If you get a .appxbundle instead, use the same command with the appropriate path.
+
+🔎 If this gives a digital signature error, try installing via PowerShell using Add-AppxPackage after enabling developer mode:
+
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /t REG_DWORD /f /v "AllowDevelopmentWithoutDevLicense" /d "1"
+3. Launch Ubuntu
+After installation, search for "Ubuntu" in the Start Menu or run:
+
+ubuntu
+The first time it runs, it will take a few minutes to set up and ask you to create a Linux username and password.
+
+4. (Optional) Set Default WSL Version to 1
+WSL 2 is not available on Windows Server 2019, so you should explicitly use WSL 1:
+
+wsl --set-version Ubuntu 1
+Or list installed distros:
+
+wsl --list --verbose
+💡 Troubleshooting
+If Add-AppxPackage fails:
+
+You can try using PowerShell to rename .appx to .zip, extract it manually, and run the executable inside (usually named ubuntu.exe).
+
+Example:
+
+Rename-Item "C:\Installers\Ubuntu.appx" "C:\Installers\Ubuntu.zip"
+Expand-Archive "C:\Installers\Ubuntu.zip" "C:\Installers\Ubuntu"
+cd "C:\Installers\Ubuntu"
+.\ubuntu.exe
+This also works without installing via the Microsoft Store.
+
+Let me know what step you're at or if you hit an error
