@@ -1,0 +1,95 @@
+from dataclasses import dataclass
+from datetime import date, datetime
+from typing import Optional, List
+
+@dataclass
+class BondPayload:
+    Isin: str
+
+@dataclass
+class SecurityPayload:
+    Bond: Optional[BondPayload] = None
+
+@dataclass
+class SecuritiesItemPayload:
+    StartDate: date
+    Security: Optional[SecurityPayload] = None
+    IsCollateralTaken: Optional[bool] = None
+    Nominal: Optional[int] = None
+
+@dataclass
+class CashPayload:
+    StartCashAmount: Optional[float] = None
+    Notional: Optional[float] = None
+    NominalParFill: Optional[int] = None
+    SubType: Optional[str] = None
+    NoticePeriod: Optional[int] = None
+    Security: Optional[SecurityPayload] = None
+
+@dataclass
+class TriPartySecurityPayload:
+    StartDate: Optional[date] = None
+    Security: Optional[SecurityPayload] = None
+
+@dataclass
+class LendingDetailsPayload:
+    StartDate: date
+    WeBorrow: Optional[bool] = None
+
+@dataclass
+class RepoPayload:
+    Securities: Optional[List[SecuritiesItemPayload]] = None
+    Cash: Optional[CashPayload] = None
+
+@dataclass
+class CollateralPoolPayload:
+    Securities: List[SecuritiesItemPayload]
+
+@dataclass
+class TripartyRepoPayload:
+    Cash: Optional[CashPayload] = None
+    Security: TriPartySecurityPayload
+
+@dataclass
+class SecurityLendingWithCashPayload:
+    Securities: List[SecuritiesItemPayload]
+    Cash: Optional[CashPayload] = None
+    LendingDetails: LendingDetailsPayload
+
+@dataclass
+class ProductPayload:
+    Repo: Optional[RepoPayload] = None
+    CollateralPool: Optional[CollateralPoolPayload] = None
+    TripartyRepo: Optional[TripartyRepoPayload] = None
+    SecurityLendingWithCash: Optional[SecurityLendingWithCashPayload] = None
+
+@dataclass
+class PropertiesPayload:
+    IsSponsored: Optional[bool] = None
+    Cdr: Optional[int] = None  # maps from [JsonProperty("CDR")]
+
+@dataclass
+class BookPayload:
+    Code: str
+    Properties: PropertiesPayload
+
+@dataclass
+class PartyPayload:
+    Code: str
+
+@dataclass
+class TradePayload:
+    Id: str
+    ContractId: int
+    SettlementDate: date
+    Status: str
+    TradeType: str
+    InputTimeUtc: datetime
+    TradingDay: date
+    RiskMaturityDate: date
+    Book: BookPayload
+    Product: ProductPayload
+    Party: PartyPayload
+    InitialParty: Optional[PartyPayload] = None
+    Properties: PropertiesPayload = PropertiesPayload()
+  
