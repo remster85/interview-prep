@@ -519,7 +519,7 @@ Edit
 # collateral_ranking/domain/model.py
 
 from dataclasses import dataclass
-
+```
 @dataclass
 class CollateralItem:
     instrument_id: str
@@ -528,10 +528,12 @@ class CollateralItem:
     haircut: float   # Enriched
     value: float      # Enriched
     rank: int = 0     # Later computed
+```
 🔷 CollateralRanking (Aggregate Root)
 python
 Copy
 Edit
+```
 from typing import List
 from dataclasses import dataclass, field
 
@@ -546,13 +548,14 @@ class CollateralRanking:
         self.items.sort(key=lambda item: item.value, reverse=True)
         for i, item in enumerate(self.items, start=1):
             item.rank = i
+```
 🔌 Application Layer — collateral_ranking/application/
 🔷 Port (for writing CollateralRanking)
 python
 Copy
 Edit
 # application/ports.py
-
+```
 from abc import ABC, abstractmethod
 from domain.model import CollateralRanking
 
@@ -560,12 +563,13 @@ class CollateralRankingRepository(ABC):
     @abstractmethod
     def save(self, ranking: CollateralRanking) -> None:
         ...
+```
 🔷 ACL to Positions — Adapter that enriches snapshot
 python
 Copy
 Edit
 # application/position_snapshot_adapter.py
-
+```
 from typing import List
 from domain.model import CollateralItem, CollateralRanking
 from positions.domain.snapshot import PositionSnapshot
@@ -602,12 +606,13 @@ class PositionSnapshotToCollateralRankingAdapter:
             "MSFT": 0.04,
             "TSLA": 0.20
         }.get(instrument_id, 0.10)
+```
 🔷 Service
 python
 Copy
 Edit
 # application/ranking_service.py
-
+```
 from application.ports import CollateralRankingRepository
 from application.position_snapshot_adapter import PositionSnapshotToCollateralRankingAdapter
 from positions.application.ports import PositionSnapshotRepository
@@ -623,13 +628,14 @@ class CollateralRankingService:
         snapshot = self.snapshot_repo.get_latest_for_day(book_id, date)
         ranking = PositionSnapshotToCollateralRankingAdapter.convert(snapshot)
         self.ranking_repo.save(ranking)
+```
 🧩 Adapters
 📦 Persistence Adapter
 python
 Copy
 Edit
 # adapters/sqlalchemy_ranking_repo.py
-
+```
 from domain.model import CollateralRanking
 from application.ports import CollateralRankingRepository
 
@@ -639,7 +645,7 @@ class SqlAlchemyCollateralRankingRepository(CollateralRankingRepository):
 
     def save(self, ranking: CollateralRanking) -> None:
         # Convert and persist using your ORM
-        ...
+...
 🌐 Inbound REST
 python
 Copy
@@ -803,15 +809,17 @@ Copy
 Edit
 # adapters/log_event_publisher.py
 
+````
 from application.ports import DomainEventPublisher
 from domain.events import PositionSnapshotCreated
 import logging
 
 logger = logging.getLogger("event.publisher")
 
-class LogEventPublisher(DomainEventPublisher):
-    def publish(self, event: PositionSnapshotCreated):
+class LogEventPublisher(DomainEventPublisher):  
+    def publish(self, event: PositionSnapshotCreated):  
         logger.info(f"[EVENT] PositionSnapshotCreated: {event}")
+```
 B. Kafka/RabbitMQ Publisher (prod-ready)
 You’d wrap your Kafka producer:
 
@@ -819,7 +827,7 @@ python
 Copy
 Edit
 # adapters/kafka_event_publisher.py
-
+```
 from kafka import KafkaProducer
 import json
 
@@ -834,6 +842,7 @@ class KafkaEventPublisher(DomainEventPublisher):
             "snapshot_time": event.snapshot_time.isoformat()
         }).encode("utf-8")
         self.producer.send(self.topic, payload)
+```
 5. 🧾 Update Configuration / main.py
 python
 Copy
