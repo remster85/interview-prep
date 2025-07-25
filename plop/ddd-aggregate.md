@@ -347,7 +347,7 @@ python
 Copy
 Edit
 # application/ports.py
-
+```
 from abc import ABC, abstractmethod
 from domain.snapshot import PositionSnapshot
 from domain.model import TradingBook
@@ -370,11 +370,12 @@ class TradingBookRepository(ABC):
     @abstractmethod
     def save(self, book: TradingBook) -> None:
         ...
+```
 python
 Copy
 Edit
 # application/snapshot_service.py
-
+```
 from domain.model import TradingBook
 from application.ports import PositionSnapshotRepository, TradingBookRepository
 from datetime import date
@@ -401,13 +402,14 @@ class SnapshotService:
             pass  # No snapshot yet
 
         self.snapshot_repo.save(snapshot)
+```
 🧩 3. Adapter Layer (adapters/)
 📦 Persistence Adapter (e.g., PostgreSQL)
 python
 Copy
 Edit
 # adapters/postgres_snapshot_repo.py
-
+```
 from application.ports import PositionSnapshotRepository
 from domain.snapshot import PositionSnapshot
 from datetime import date
@@ -423,12 +425,13 @@ class PostgresPositionSnapshotRepository(PositionSnapshotRepository):
     def get_latest_for_day(self, book_id: str, snapshot_date: date) -> PositionSnapshot:
         row = self.db.query_latest_snapshot(book_id, snapshot_date)
         return row.to_snapshot()
+```
 🌐 Inbound Adapter (REST API or CLI)
 python
 Copy
 Edit
 # adapters/rest_api.py
-
+```
 from flask import Flask, request
 from application.snapshot_service import SnapshotService
 
@@ -441,12 +444,13 @@ def create_app(snapshot_service: SnapshotService):
         return {"status": "snapshot saved or skipped"}, 200
 
     return app
+```
 🧾 4. Configuration Layer (main.py)
 python
 Copy
 Edit
 # main.py
-
+```
 from application.snapshot_service import SnapshotService
 from adapters.postgres_snapshot_repo import PostgresPositionSnapshotRepository
 from adapters.rest_api import create_app
@@ -460,6 +464,7 @@ if __name__ == "__main__":
     snapshot_service = SnapshotService(book_repo, snapshot_repo)
     app = create_app(snapshot_service)
     app.run()
+```
 🔄 High-Level View
 arduino
 Copy
@@ -517,9 +522,8 @@ python
 Copy
 Edit
 # collateral_ranking/domain/model.py
-
-from dataclasses import dataclass
 ```
+from dataclasses import dataclass
 @dataclass
 class CollateralItem:
     instrument_id: str
@@ -748,7 +752,7 @@ python
 Copy
 Edit
 # domain/events.py
-
+```
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -756,12 +760,13 @@ from datetime import datetime
 class PositionSnapshotCreated:
     book_id: str
     snapshot_time: datetime
+```
 2. 🔌 Add Event Publisher Port
 python
 Copy
 Edit
 # application/ports.py
-
+```
 from abc import ABC, abstractmethod
 from domain.events import PositionSnapshotCreated
 
@@ -769,12 +774,13 @@ class DomainEventPublisher(ABC):
     @abstractmethod
     def publish(self, event: PositionSnapshotCreated) -> None:
         ...
+```
 3. 🧠 Update Snapshot Service to Emit Event
 python
 Copy
 Edit
 # application/snapshot_service.py
-
+```
 from domain.events import PositionSnapshotCreated
 from application.ports import DomainEventPublisher
 
@@ -803,6 +809,7 @@ class SnapshotService:
             snapshot_time=snapshot.snapshot_time
         )
         self.event_publisher.publish(event)
+```
 4. 🧩 Implement a Simple Event Publisher Adapter
 A. Log-based Publisher (for dev)
 python
@@ -810,7 +817,7 @@ Copy
 Edit
 # adapters/log_event_publisher.py
 
-````
+```
 from application.ports import DomainEventPublisher
 from domain.events import PositionSnapshotCreated
 import logging
@@ -849,10 +856,11 @@ python
 Copy
 Edit
 # main.py
-
+```
 event_publisher = LogEventPublisher()  # or KafkaEventPublisher(...)
 snapshot_service = SnapshotService(book_repo, snapshot_repo, event_publisher)
 app = create_app(snapshot_service)
+```
 ⛓️ (Optional) Consume Event in collateral_ranking
 For now, we can poll the snapshots. But to make it reactive:
 
@@ -864,7 +872,7 @@ python
 Copy
 Edit
 # collateral_ranking/adapters/kafka_snapshot_listener.py
-
+```
 from domain.events import PositionSnapshotCreated
 from application.ranking_service import CollateralRankingService
 
@@ -875,6 +883,7 @@ class SnapshotEventHandler:
     def handle(self, event: PositionSnapshotCreated):
         date = event.snapshot_time.date()
         self.ranking_service.build_ranking(event.book_id, date)
+```
 ✅ Event Flow Diagram
 less
 Copy
