@@ -669,7 +669,7 @@ python
 Copy
 Edit
 # main.py (or ranking_main.py)
-
+```
 from collateral_ranking.application.ranking_service import CollateralRankingService
 from adapters.rest_api import create_app
 from positions.adapters.postgres_snapshot_repo import PostgresPositionSnapshotRepository
@@ -685,6 +685,7 @@ app = create_app(ranking_service)
 
 if __name__ == "__main__":
     app.run()
+```
 ✅ Final Architecture Summary (Hexagonal)
 sql
 Copy
