@@ -645,7 +645,7 @@ class SqlAlchemyCollateralRankingRepository(CollateralRankingRepository):
 
     def save(self, ranking: CollateralRanking) -> None:
         # Convert and persist using your ORM
-...
+```
 🌐 Inbound REST
 python
 Copy
